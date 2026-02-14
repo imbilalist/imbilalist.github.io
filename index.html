@@ -1,13 +1,336 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Academic Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilal Ahmad Kalas | Mathematics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: #f8fafc;
+            background-image: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* header */
+        .header {
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+        }
+
+        .header .subhead {
+            font-size: 1.25rem;
+            color: #475569;
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header .subhead span {
+            background: #e2e8f0;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        /* intro card */
+        .intro {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e9eef3;
+        }
+
+        .intro p {
+            font-size: 1.125rem;
+            max-width: 800px;
+            color: #334155;
+        }
+
+        .intro p:first-child {
+            margin-bottom: 1rem;
+        }
+
+        .intro .interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .interest-tag {
+            background: #eef2ff;
+            color: #1e40af;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* documents grid */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid #2563eb;
+            padding-left: 1rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.15s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.02);
+            border-color: #b9d0f0;
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+
+        .card .description {
+            color: #475569;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        .card .meta {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+            border-top: 1px dashed #d1d9e6;
+            padding-top: 0.75rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #1e293b;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid #1e293b;
+            transition: background 0.15s, border-color 0.15s;
+            align-self: flex-start;
+            margin-top: 0.25rem;
+        }
+
+        .btn:hover {
+            background: #0f172a;
+            border-color: #0f172a;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            color: #1e293b;
+            border: 1px solid #94a3b8;
+        }
+
+        .btn.secondary:hover {
+            background: #e9edf2;
+            border-color: #64748b;
+        }
+
+        /* footer */
+        .footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #d1d9e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: #475569;
+        }
+
+        .footer .links a {
+            color: #1e293b;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+
+        .footer .links a:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .footer { flex-direction: column; align-items: start; }
+            .footer .links a { margin-left: 0; margin-right: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
-    <h1>My Mathematics Research</h1>
-    <p>Documents for PhD applications:</p>
-    <ul>
-        <li><a href="thesis.pdf">Master's Thesis (PDF)</a></li>
-    </ul>
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+            <h1>Bilal Ahmad Kalas</h1>
+            <div class="subhead">
+                Mathematics graduate (MSc) · aspiring PhD candidate
+                <span>Algebra · Topology · Number Theory</span>
+            </div>
+        </div>
+
+        <!-- short intro -->
+        <div class="intro">
+            <p>I am a master's graduate in mathematics from Central University of Kashmir, with a thesis on <strong>Ranks and Presentations for Transformation Semigroups</strong>. My research interests lie at the intersection of geometric analysis and partial differential equations.</p>
+            <p>Below you can find my master's thesis and several independent reviews of recent literature — samples that demonstrate my ability to engage with current research. All documents are freely accessible.</p>
+            <div class="interests">
+                <span class="interest-tag">Algebra</span>
+                <span class="interest-tag">Topology</span>
+                <span class="interest-tag">Number Theory</span>
+                <span class="interest-tag">Representation theory</span>
+            </div>
+        </div>
+
+        <!-- research documents section -->
+        <h2 class="section-title">Research documents</h2>
+        <div class="card-grid">
+            <!-- master's thesis card -->
+            <div class="card">
+                <div class="card-icon">📜</div>
+                <h3>Master's thesis</h3>
+                <div class="description">
+                    Ranks and Transformations for Finite Transformation Semigroups with one Fixed Point
+                </div>
+                <div class="meta">
+                     100+ pages · defended May 2025 · advisor Prof. Aftab Hussain Shah
+                </div>
+                <a href="thesis.pdf" class="btn" target="_blank">View PDF</a>
+            </div>
+
+            <!-- literature review 1 -->
+            <!--
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>Literature review: Recent advances in geometric flows</h3>
+                <div class="description">
+                    A critical survey of 12 key papers (2020–2025) on mean curvature flow and its applications. Includes open problems and possible extensions.
+                </div>
+                <div class="meta">
+                    18 pages · includes original remarks
+                </div>
+                <a href="review_geometric_flows.pdf" class="btn" target="_blank">View PDF</a>
+            </div>
+            -->
+
+            <!-- literature review 2 (or research notes) -->
+            <!--
+            <div class="card">
+                <div class="card-icon">✎</div>
+                <h3>Research notes: The Lichnerowicz–Obata theorem</h3>
+                <div class="description">
+                    An expository note with a self‑contained proof and a discussion of recent generalisations to integral curvature conditions.
+                </div>
+                <div class="meta">
+                    9 pages · written for a reading seminar
+                </div>
+                <a href="lichnerowicz_obata_notes.pdf" class="btn" target="_blank">View PDF</a>
+            </div>
+            -->
+
+            <!-- you can add more cards following the same pattern -->
+        </div>
+
+        <!-- optional: additional section for teaching / talks -->
+        <!--
+        <h2 class="section-title">Other materials</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">📢</div>
+                <h3>Seminar talk slides</h3>
+                <div class="description">
+                    “Recent progress in the Yamabe problem” — presented at the graduate colloquium, March 2025.
+                </div>
+                <div class="meta">12 slides · PDF</div>
+                <a href="yamabe_talk.pdf" class="btn secondary" target="_blank">Download slides</a>
+            </div>
+        -->
+
+            <div class="card">
+                <div class="card-icon">🧮</div>
+                <h3>Code repository</h3>
+                <div class="description">
+                    Numerical experiments for my thesis (Python/FEniCS) – finite element simulations of nonlinear PDEs.
+                </div>
+                <div class="meta">GitHub</div>
+                <a href="https://github.com/username/pde-simulations" class="btn secondary" target="_blank">View on GitHub</a>
+            </div>
+        </div>
+
+        <!-- footer with contact / links -->
+        <div class="footer">
+            <div>© 2026 Bilal Ahmad Kalas</div>
+            <div class="links">
+                <a href="https://aledentia.blogspot.com">my blog</a>
+                <a href="mailto:billkalas@icloud.com">✉️ billkalas@icloud.com</a>
+                <a href="https://github.com/imbilalist">github</a>
+                <a href="https://imbilalist.substack.com">substack</a>
+                <a href="https://x.com/in/LimSupx">X</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
