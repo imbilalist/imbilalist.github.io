@@ -19,278 +19,285 @@
             background-image: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 30%),
                               radial-gradient(circle at 90% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
             min-height: 100vh;
+            display: flex;
+        }
+
+        /* Fixed sidebar */
+        .sidebar {
+            width: 300px;
+            background: #1e293b;        
+            color: #f1f5f9;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        }
+
+        .sidebar h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+            color: white;
+        }
+
+        .sidebar .subhead {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 1rem;
+        }
+
+        .sidebar .contact {
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar .contact p {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar .contact a {
+            color: #94a3b8;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(255,255,255,0.3);
+            transition: color 0.2s;
+        }
+
+        .sidebar .contact a:hover {
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .sidebar .interests-sidebar {
+            margin-top: 2rem;
+        }
+
+        .sidebar .interests-sidebar span {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin: 0.25rem 0.25rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #e2e8f0;
+        }
+
+        /* Main content – scrollable */
+        .main-content {
+            margin-left: 300px;
+            padding: 2rem 2rem;
+            width: calc(100% - 300px);
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
         }
 
-        /* header */
-        .header {
-            margin-bottom: 2.5rem;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 1.5rem;
-            background: #abb290;        /* light grey background */
-            padding: 1.5rem 2rem;        /* extra space around content */
-            border-radius: 16px;         /* rounded corners */
-       }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #0f172a;
-            letter-spacing: -0.025em;
-        }
-
-        .header .subhead {
-            font-size: 1.25rem;
-            color: #475569;
-            margin-top: 0.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .header .subhead span {
-            background: #e2e8f0;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #334155;
-        }
-
-        /* intro card */
+        /* Intro card */
         .intro {
             background: white;
             border-radius: 24px;
             padding: 2rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
             border: 1px solid #e9eef3;
         }
 
         .about-heading {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: #0f172a;
             margin-bottom: 1rem;
-            border-bottom: 2px solid #2563eb;
+            border-bottom: 3px solid #2563eb;
             padding-bottom: 0.3rem;
-            display: inline-block;  /* makes border only as wide as the text */
-       }
-
-        .intro p {
-            font-size: 1.125rem;
-            max-width: 800px;
-            color: #334155;
+            display: inline-block;
         }
 
-        .intro p:first-child {
+        .intro p {
+            font-size: 1.05rem;
+            color: #334155;
             margin-bottom: 1rem;
         }
 
-        .intro .interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1.25rem;
+        .intro p:last-child {
+            margin-bottom: 0;
         }
 
-        .interest-tag {
-            background: #eef2ff;
-            color: #1e40af;
-            padding: 0.25rem 1rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid #cbd5e1;
-        }
-
-        /* documents grid */
+        /* Section headings */
         .section-title {
             font-size: 1.8rem;
             font-weight: 600;
             color: #0f172a;
-            margin-bottom: 1.5rem;
+            margin: 2rem 0 1.5rem 0;
             border-left: 6px solid #2563eb;
             padding-left: 1rem;
         }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+        /* Paper / thesis entry – plain text style like the example image */
+        .paper-entry {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid #e2e8f0;
-            transition: all 0.15s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
+        .paper-entry:last-child {
+            border-bottom: none;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.02);
-            border-color: #b9d0f0;
-        }
-
-        .card-icon {
-            font-size: 2.2rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
+        .paper-title {
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
             color: #0f172a;
+            margin-bottom: 0.2rem;
         }
 
-        .card .description {
+        .paper-authors {
             color: #475569;
-            font-size: 0.95rem;
-            margin-bottom: 1.25rem;
-            flex: 1;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
         }
 
-        .card .meta {
-            font-size: 0.8rem;
+        .paper-venue {
             color: #64748b;
-            margin-bottom: 1rem;
-            border-top: 1px dashed #d1d9e6;
-            padding-top: 0.75rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #1e293b;
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 500;
             font-size: 0.9rem;
-            border: 1px solid #1e293b;
-            transition: background 0.15s, border-color 0.15s;
-            align-self: flex-start;
-            margin-top: 0.25rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
         }
 
-        .btn:hover {
-            background: #0f172a;
-            border-color: #0f172a;
+        .paper-links a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 1.5rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
         }
 
-        .btn.secondary {
-            background: transparent;
-            color: #1e293b;
-            border: 1px solid #94a3b8;
+        .paper-links a:hover {
+            border-bottom-color: #2563eb;
         }
 
-        .btn.secondary:hover {
-            background: #e9edf2;
-            border-color: #64748b;
-        }
-
-        /* footer */
+        /* Footer  */
         .footer {
             margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #d1d9e6;
+            padding: 1.5rem 2rem;
+            background: #0f172a;       
+            color: #94a3b8;
+            border-radius: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            color: #475569;
+        }
+
+        .footer .copyright {
+            color: #cbd5e1;
         }
 
         .footer .links a {
-            color: #1e293b;
+            color: #94a3b8;
             text-decoration: none;
             margin-left: 1.5rem;
             font-weight: 500;
+            transition: color 0.2s;
         }
 
         .footer .links a:hover {
-            color: #2563eb;
-            text-decoration: underline;
+            color: white;
         }
 
-        @media (max-width: 600px) {
-            .header h1 { font-size: 2rem; }
-            .card-grid { grid-template-columns: 1fr; }
-            .footer { flex-direction: column; align-items: start; }
-            .footer .links a { margin-left: 0; margin-right: 1.5rem; }
+        /* Responsive */
+        @media (max-width: 700px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer .links a {
+                margin-left: 0;
+                margin-right: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- header -->
-        <div class="header">
-            <h1>Bilal Ahmad Kalas</h1>
-            <div class="subhead">
-                Mathematics graduate (MSc) · aspiring PhD candidate
-                <span>Algebra · Topology · Number Theory</span>
-            </div>
+    <!-- Fixed sidebar -->
+    <aside class="sidebar">
+        <h1>Bilal Ahmad Kalas</h1>
+        <div class="subhead">Mathematics graduate · aspiring PhD candidate</div>
+        
+        <div class="contact">
+            <p>🔗 <a href="https://github.com/imbilalist">github</a> · <a href="#">Github</a></p>
         </div>
 
-        <!-- short intro -->
-        <div class="intro">
-            <h2 class="about-heading">About me</h2>
-            <p>I am a master's graduate in mathematics from Central University of Kashmir, with a thesis on <strong>Ranks and Presentations for Transformation Semigroups</strong>. My research interests lie in algebra (commutative algebra, representation theory, semigroup theory), number theory (algebraic number theory), and topology (algebraic topology), with a strong focus on algebraic geometry and Galois theory.</p>
-            <p>Below you can find my master's thesis and several independent reviews of recent literature(Working Drafts); samples that demonstrate my ability to engage with current research. All documents are freely accessible.</p>
-            <div class="interests">
-                <span class="interest-tag">Algebra</span>
-                <span class="interest-tag">Commutative Algebra</span>
-                <span class="interest-tag">Topology</span>
-                <span class="interest-tag">Number Theory</span>
-                <span class="interest-tag">Algebraic Topology</span>
-                <span class="interest-tag">Algebraic Number Theory</span>
-                <span class="interest-tag">Algebraic Geometry</span>
-                <span class="interest-tag">Representation Theory</span>
-                <span class="interest-tag">Linear Algebra</span>
-                <span class="interest-tag">Semigroup Theory</span>
-                <span class="interest-tag">Field and Galois Theory</span>
-            </div>
+        <div class="interests-sidebar">
+            <span>Algebra</span>
+            <span>Commutative Algebra</span>
+            <span>Topology</span>
+            <span>Number Theory</span>
+            <span>Algebraic Topology</span>
+            <span>Algebraic Number Theory</span>
+            <span>Algebraic Geometry</span>
+            <span>Representation Theory</span>
+            <span>Semigroup Theory</span>
+            <span>Galois Theory</span>
         </div>
+    </aside>
 
-        <!-- documents section -->
-        <h2 class="section-title">Archives</h2>
-        <div class="card-grid">
-            <!-- master's thesis -->
-            <div class="card">
-                <h3>Master's Thesis</h3>
-                <div class="description">
-                    Ranks and Presentations for Finite Transformation Semigroups
+    <!-- Main scrollable content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- About me section -->
+            <div class="intro">
+                <h2 class="about-heading">About me</h2>
+                <p>I am a master's graduate in mathematics from Central University of Kashmir, with a thesis on <strong>Ranks and Presentations for Transformation Semigroups</strong>. My research interests lie in algebra (commutative algebra, representation theory, semigroup theory), number theory (algebraic number theory), and topology (algebraic topology), with a strong focus on algebraic geometry and Galois theory.</p>
+                <p>Below you can find my master's thesis; independent reviews of recent literature are currently in preparation. All documents are freely accessible.</p>
+            </div>
+
+            <!-- PDF Section -->
+            <h2 class="section-title">Archives</h2>
+
+            <div class="paper-entry">
+                <div class="paper-title">Master's thesis: Ranks and Presentations for Transformation Semigroups</div>
+                <div class="paper-authors">Bilal Ahmad Kalas</div>
+                <div class="paper-venue">Central University of Kashmir, 2024</div>
+                <div class="paper-links">
+                    <a href="thesis.pdf" target="_blank">📄 PDF</a>
+                    
                 </div>
-                <div class="meta">
-                    Supervisor Dr. Aftab Hussain Shah
-                </div>
-                <a href="thesis.pdf" class="btn" target="_blank">View PDF</a>
             </div>
 
-        <!-- footer with contact / links -->
-        <div class="footer">
-            <div>© 2026 Bilal Ahmad Kalas</div>
-            <div class="links">
-                <a href="https://aledentia.blogspot.com">My blog</a>
-                <a href="https://github.com/imbilalist">Github</a>
-                <a href="https://limsupx.substack.com">Substack</a>
-                <a href="https://x.com/LimSupx">X</a>
+            <!-- Footer -->
+            <div class="footer">
+                <div class="copyright">© 2026 Bilal Ahmad Kalas</div>
+                <div class="links">
+                    <a href="https://github.com/imbilalist">GitHub</a>
+                    <a href="https://limsupx.substack.com">Substack</a>
+                    <a href="https://www.x.com/LimSupx">X</a>
+                </div>
             </div>
-        </div>
-    </div>
+        </div> <!-- end container -->
+    </main>
 </body>
 </html>
