@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank of Transformation Semigroup · Interactive</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .description {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #dce4ec;
+            border-radius: 6px;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 25px 0 20px;
+            background: #3498db;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .result-line {
+            font-size: 1.2em;
+            margin: 10px 0;
+            word-wrap: break-word;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rank of Transformation Semigroup</h1>
+    <div class="description">
+        Compute |O<sub>n,p</sub>| (cardinality) and its rank (size of a minimal generating set) using Catalan numbers.
+    </div>
+
+    <!-- Input fields -->
+    <label for="n">n (positive integer):</label>
+    <input type="number" id="n" min="1" value="5" required>
+
+    <label for="p">p (fixed point, 1 ≤ p ≤ n):</label>
+    <input type="number" id="p" min="1" value="3" required>
+
+    <button onclick="compute()">Calculate</button>
+
+    <!-- Results area -->
+    <div class="result-box" id="result">
+        <div class="result-line">Enter values and click Calculate.</div>
+    </div>
+
+    <div class="note">
+        Uses exact integer arithmetic (BigInt). For n > 500 the calculation may be slower.
+    </div>
+
+    <script>
+        // ==================== BigInt binomial coefficient ====================
+        // This function computes C(n, k) for non‑negative integers n, k using BigInt.
+        // It uses the multiplicative formula: C(n,k) = ∏_{i=1}^{k} (n - k + i) / i
+        // All divisions are exact because each intermediate result is an integer.
+        function comb(n, k) {
+            // Convert inputs to BigInt if they aren't already
+            n = BigInt(n);
+            k = BigInt(k);
+
+            // Invalid cases return 0n (consistent with mathematical convention)
+            if (k < 0n || k > n) return 0n;
+
+            // Use symmetry: C(n,k) = C(n, n-k) to minimise the number of steps
+            if (k > n - k) k = n - k;
+
+            let result = 1n;
+            let i = 1n;
+            // Multiply by (n - k + i) then divide by i at each step
+            while (i <= k) {
+                result = result * (n - k + i) / i;
+                i++;
+            }
+            return result;
+        }
+
+        // ==================== Catalan number (BigInt) ====================
+        // Returns the n‑th Catalan number as a BigInt.
+        // For n < 0, returns 0n (this is useful for the rank formula).
+        // Catalan numbers: C_n = (1/(n+1)) * binom(2n, n)
+        function catalan(n) {
+            // n is expected to be a Number (or BigInt) – we convert to Number for clarity
+            let nNum = Number(n);
+            if (nNum < 0) return 0n;                // negative index → 0
+            if (nNum === 0) return 1n;               // C_0 = 1
+
+            // Use BigInt for exact computation
+            let N = BigInt(nNum);
+            let twoN = 2n * N;
+            // binom(2n, n) divided by (n+1) – integer division yields exact Catalan
+            return comb(twoN, N) / (N + 1n);
+        }
+
+        // ==================== Cardinality |0_{n,p}| ====================
+        // Implements the formula:
+        //   - if p = 1 or p = n :  C_{n-1}
+        //   - otherwise         :  C_{p-1} * C_{n-p}
+        function cardinality(n, p) {
+            // n and p are Numbers (already validated)
+            if (p === 1 || p === n) {
+                // Special case: endpoint fixed point
+                return catalan(n - 1);
+            } else {
+                // General case: product of two Catalan numbers
+                return catalan(p - 1) * catalan(n - p);
+            }
+        }
+
+        // ==================== Rank of 0_{n,p} ====================
+        // Rank formula (general):  r = C_{p-1} * C_{n-p}  -  C_{p-2} * C_{n-p-1}
+        // Where Catalan numbers with negative index are taken as 0.
+        // This formula automatically handles the special cases p=1, p=n, p=2, p=n-1.
+        function rank(n, p) {
+            // Compute the four Catalan numbers (negative indices give 0n)
+            let a = catalan(p - 1);
+            let b = catalan(n - p);
+            let c = catalan(p - 2);
+            let d = catalan(n - p - 1);
+
+            // r = a*b - c*d   (all BigInt)
+            return a * b - c * d;
+        }
+
+        // ==================== Main computation & display ====================
+        function compute() {
+            // Get input values as strings
+            const nStr = document.getElementById('n').value;
+            const pStr = document.getElementById('p').value;
+
+            // Parse to integers (Number) for validation and to pass to functions
+            const n = parseInt(nStr, 10);
+            const p = parseInt(pStr, 10);
+
+            // --- Validation ---
+            if (isNaN(n) || n < 1) {
+                document.getElementById('result').innerHTML = 
+                    '<div class="result-line error">n must be a positive integer.</div>';
+                return;
+            }
+            if (isNaN(p) || p < 1) {
+                document.getElementById('result').innerHTML = 
+                    '<div class="result-line error">p must be a positive integer.</div>';
+                return;
+            }
+            if (p > n) {
+                document.getElementById('result').innerHTML = 
+                    `<div class="result-line error">p cannot be greater than n (p = ${p}, n = ${n}).</div>`;
+                return;
+            }
+
+            // --- Computation (using BigInt, results are BigInt) ---
+            const card = cardinality(n, p);    // BigInt
+            const rnk = rank(n, p);            // BigInt
+
+            // --- Display ---
+            // Convert BigInt to string for display
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="result-line"><strong>n = ${n}, p = ${p}</strong></div>
+                <div class="result-line">|0<sub>${n},${p}</sub>| = ${card.toString()}</div>
+                <div class="result-line">Rank(0<sub>${n},${p}</sub>) = ${rnk.toString()}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
