@@ -34,43 +34,31 @@ def get_p():
 
 # calculating the cardinality
 def cardinality(n, p):
-    if p == 1 or p == n:
-        print('|O_n,p| = |O_n,n| =', catalan(n-1))
-
-    else:
-        print('|O_n,p| =', catalan(p-1) * catalan(n-p
-                                                  ))
+    print(f"|O_{n},{p}| =", catalan(p-1) * catalan(n-p))
 
 
 # calculating rank of finite transformation semigroup with one fixed point p
 def rank(n, p):
-    # we need to take care of the case when n=p=1
+    # Special case: n=p=1
     if n == p == 1:
         print('Rank(O_1,1) = 1')
 
-    # case when p=1 or p=n
+    # Special case when p=1 or p=n
     elif p == 1 or p == n:
         r = catalan(n-1) - catalan(n-2)
-        if p == 1:
-            print('Rank(O_n,1) = {}'.format(r))
+        print(f"Rank(O_{n},{p}) = {r}")
 
-        else:
-            print('Rank(O_n,n) = {}'.format(r))
-
-    # case when p=2 or p =n-1. Although it can be easily seen from general case but,
-    # I'm going to proceed in chronological order of my Dissertation/Thesis
+    # case when p=2 or p =n-1.
+    # Although it can be easily seen from general case but, I'm going to proceed in chronological
+    # order of my Dissertation/Thesis
     elif p == 2 or p == n-1:
         r = catalan(n-2) - catalan(n-3)
-        if p == 2:
-            print('Rank(O_n,2) = {}'.format(r))
+        print(f"Rank(O_{n},{p}) = {r}")
 
-        else:
-            print('Rank(O_n,n-1) = {}'.format(r))
-
-    # general case
+    # General case
     else:
         r = catalan(p-1) * catalan(n-p) - catalan(p-2) * catalan(n-p-1)
-        print('Rank(O_n,p) = {}'.format(r))
+        print(f"Rank(O_{n},{p}) = {r}")
 
 
 # nth-catalan number C_n
