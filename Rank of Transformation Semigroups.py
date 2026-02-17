@@ -13,7 +13,7 @@ def main():
 
 
 def get_n():
-    # Making sure that the user enters a valid positive natural number for n
+    # Making sure that the user enters a valid positive integer for n
     while True:
         n = int(input('Enter the value of n:'))
         if n > 0:
@@ -23,7 +23,7 @@ def get_n():
 
 
 def get_p():
-    # Making sure that the user enters a valid positive natural number for fixed point p
+    # Making sure that the user enters a valid positive integer for fixed point p
     while True:
         p = int(input('Enter the value of fixed point p:'))
         if p > 0:
@@ -32,6 +32,7 @@ def get_p():
     return p
 
 
+# calculating the cardinality
 def cardinality(n, p):
     if p == 1 or p == n:
         print('|O_n,p| = |O_n,n| =', catalan(n-1))
@@ -41,9 +42,9 @@ def cardinality(n, p):
                                                   ))
 
 
-# defining the function for calculating rank of finite transformation semigroup with one fixed point p
+# calculating rank of finite transformation semigroup with one fixed point p
 def rank(n, p):
-    # we need to take care of the case n=p=1
+    # we need to take care of the case when n=p=1
     if n == p == 1:
         print('Rank(O_1,1) = 1')
 
@@ -72,7 +73,7 @@ def rank(n, p):
         print('Rank(O_n,p) = {}'.format(r))
 
 
-# defining the function for calculating nth-catalan number C_n
+# nth-catalan number C_n
 def catalan(n):
     if n == 0:
         return 1
