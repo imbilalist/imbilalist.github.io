@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank Calulator</title>
+</head>
+<body>
+    <h2>Rank of Order-Preserving Transformation Semigroups with one Fixed Point</h2>
+    <p>Calculating Cardiniality and Rank for Order-Preserving Transformation Semigroups with one Fixed Point based on the work presented in my Master's Thesis.</p>
+    
+    <!--Input Fields-->
+    <label for="n">n(positive integer):</label>
+    <input type="number" id="n" min="1" value="4">
+
+    <label for="p">p (fixed point, 1 ≤ p ≤ n):</label>
+    <input type="number" id="p" min="1" value="1">
+
+    <button onclick="compute()">Calculate</button>
+
+    <!--Result Area-->
+<div class="result-box" id="result">
+    <div class="result-line">Enter values and click Calculate.</div>
+</div>
+
+<!--Javascript code for calculations using the BigInt for precise calculations(especially for higher n)-->
+<script>
+
+    function factorial(n) {
+        n = BigInt(n);
+        let fact = 1n;
+        let i = 1n;
+
+        while(i <= n) {
+            fact = fact * i;
+            i++;
+        }
+        return fact;
+    }
+
+    function comb(n,k) {
+        n = BigInt(n);
+        k = BigInt(k);
+        let result = 1n;
+        result = factorial(n) / factorial(k);
+        result = result / factorial(n-k);
+        return result;
+    }
+
+    function catalan(n) {
+        let nNum = Number(n);
+
+        if(nNum === 0) {
+            return 1n;
+        }
+
+        let N = BigInt(nNum);
+        let twoN = 2n * N;
+
+        return comb(twoN, N) / (N + 1n);
+    }
+
+    function cardiniality(n,p) {
+        return catalan(p-1) * catalan(n-p);
+    }
+
+    function rank(n, p) {
+        if(n == 1) {
+            return 1;
+        } else if(p == 1 || p == n) {
+            return catalan(n-1) - catalan(n-2);
+        } else if(p == 2 || p == n-1) {
+           return catalan(n-2) - catalan(n-3);
+        } else {
+        return (catalan(p-1) * catalan(n-p)) - (catalan(p-2) * catalan(n-p-1));
+        }
+    }
+
+    function compute() {
+        const nStr = document.getElementById('n').value;
+        const pStr = document.getElementById('p').value;
+
+        const n = parseInt(nStr, 10);
+        const p = parseInt(pStr, 10);
+
+        //validation steps for p and n.....
+        
+        if (isNaN(n) || n < 1) {
+            document.getElementById('result').innerHTML =
+               `<div class="result-line error">n must be a positive integer. Try again.</div>`;
+            return;
+        }
+
+        if (isNaN(p) || p < 1) {
+            document.getElementById('result').innerHTML =
+               `<div class="result-line error">p must be a positive integer. Try again.</div>`;
+            return;
+        }
+        
+        if (p>n) {
+            document.getElementById('result').innerHTML =
+               `<div class="result-line error">p cannot be greater than n. Try again.</div>`;
+            return;
+        }
+        
+        // --- Computations using pre-defined funtions ---
+        const card = cardiniality(n, p);
+        const rnk = rank(n, p);
+
+        // ---Displaying Result ---
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+           <div class="result-line"><strong>n = ${n}, p = ${p}</strong></div>
+           <div class="result-line">|0<sub>${n},${p}</sub>| = ${card.toString()}</div>
+           <div class="result-line">Rank(0<sub>${n},${p}</sub>) = ${rnk.toString()}</div>
+        `;
+    }
+</script>
+</body>
+</html>
