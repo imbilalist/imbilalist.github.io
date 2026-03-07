@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="presentation.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank Calulator</title>
+</head>
+<body>
+    <h2>Presentation for Order-Preserving Transformation Semigroups with the only Fixed Point '1'</h2>
+    <div class="main">
+        <div class="calc">
+            <p>Deriving a Semigroup Presentation for Order-Preserving Transformation Semigroups with one Fixed Point '1' based on the work presented in my Master's Thesis.</p>
+    
+            <!--Input Field-->
+            <label for="n">n(positive integer):</label>
+            <input type="number" id="n" min="1" value="4">
+
+            <button onclick="compute()">Calculate</button>
+            <button onclick="presentation()">Semigroup Presentation</button>
+
+            <!--Result Area-->
+            <div class="result-box" id="result">
+                <div class="result-line">Enter value of n and click Calculate to calculate cardiniality and rank for O<sub>n, 1</sub>.</div>
+            </div>
+            <div class="result-box" id="present">
+                <div class="result-line">Presentation for O<sub>n, 1</sub></div>
+            </div>
+        </div>
+        <!--
+        <div class="sidebar">
+            Link goes on this section.
+        </div>
+        -->
+    </div>
+
+<!--JS code for calculations-->
+<script src="presentation.js"></script>
+</body>
+</html>
