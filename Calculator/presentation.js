@@ -71,7 +71,35 @@ function compute() {
     `;
 }
 
-//presentation function starts here
+//presentation starts here
+
+function generateFunctions(n) {
+    if (n < 3) return [];
+    let results = [];
+    let f = new Array(n).fill(0);
+    f[0] = 0;
+    f[1] = 1;
+
+    function backtrack(i, hasOne) {
+        if (i === n) {
+            if (hasOne) results.push([...f]);
+            return;
+        }
+        let prev = f[i-1];
+        for (let v = 1; v <= prev; v++) {
+            f[i] = v;
+            backtrack(i+1, hasOne || (v === 1 && i >= 2));
+        }
+        if (prev + 1 <= n-1) {
+            f[i] = prev + 1;
+            backtrack(i+1, hasOne);
+        }
+    }
+
+    backtrack(2, false);
+    return results;
+}
+
 function presentation() {
     const nStr = document.getElementById('n').value;
     const n = parseInt(nStr, 10);
@@ -90,11 +118,21 @@ function presentation() {
             </div>`;
         return;
     } else {
-        document.getElementById('present').innerHTML =
-            `<div class="result-line">The code is incomplete. It will start working once completed. Thank you!
-            </div>`;
-        return;
+        let funcs = generateFunctions(n);
+
+        const resultDiv = document.getElementById('present');
+        resultDiv.innerHTML = `
+        <div class="result-line">${funcs.toString()}</div>
+    `;
+
     }
 
     
 }
+
+// Example
+/*
+let n = 4;
+let funcs = generateFunctions(n);
+console.log("Number:", funcs.length);
+funcs.forEach(f => console.log(f));*/
