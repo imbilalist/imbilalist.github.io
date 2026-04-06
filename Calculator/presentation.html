@@ -16,22 +16,23 @@
             <label for="n">n(positive integer):</label>
             <input type="number" id="n" min="1" value="4">
 
-            <button onclick="compute()">Calculate</button>
-            <button onclick="presentation()">Semigroup Presentation</button>
+            <button onclick="compute()">Rank</button>
+            <button onclick="presentation()">Presentation</button>
 
             <!--Result Area-->
             <div class="result-box" id="result">
-                <div class="result-line">Enter value of n and click Calculate to calculate cardiniality and rank for O<sub>n, 1</sub>.</div>
+                <div class="result-line">Enter value of n and click Rank to calculate cardiniality and rank for O<sub>n, 1</sub>.</div>
             </div>
             <div class="result-box" id="present">
                 <div class="result-line">Presentation for O<sub>n, 1</sub></div>
             </div>
+            <div class="demo-disclaimer-compact">
+               <span class="disclaimer-icon">⚠️</span>
+               <strong class="disclaimer-title">Demonstration purpose only</strong> — 
+               This program illustrates the presentation for O<sub>n, 1</sub> as derived in the thesis. 
+               Calculations are not guaranteed to be accurate. Do not use them for research, publications, or any critical work.
+            </div>
         </div>
-        <!--
-        <div class="sidebar">
-            Link goes on this section.
-        </div>
-        -->
     </div>
 
 <!--JS code for calculations-->
