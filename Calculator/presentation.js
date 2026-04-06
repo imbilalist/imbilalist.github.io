@@ -110,7 +110,7 @@ function presentation() {
         return;
     }
 
-    if(n == 4) {
+    if (n == 4) {
         document.getElementById('present').innerHTML =
             `<div class="result-line">Deriving from the calculations in the Thesis(See page 81),<br>
             Y<sub>4</sub> = {a, b, c} is the required alphabet set. Then, the presentation for O<sub>4, 1</sub> is:<br>
@@ -118,21 +118,23 @@ function presentation() {
             </div>`;
         return;
     } else {
+        let rnk = rank(n);
         let funcs = generateFunctions(n);
-
-        const resultDiv = document.getElementById('present');
-        resultDiv.innerHTML = `
-        <div class="result-line">${funcs.toString()}</div>
-    `;
+        if (funcs.length === 0) {
+            document.getElementById('present').innerHTML =
+                `<div class="result-line">No functions generated for n = ${n}. Try a different value.</div>`;
+        } else {
+            let resultContent = `<div class="result-line">A<sub>${n}</sub> = {g<sub>1</sub>, g<sub>2</sub>, ..., g<sub>${rnk.toString()}</sub>} ; where g<sub>i</sub>'s are defined as:</div>`;
+            funcs.forEach((g, idx) => {
+                let str = g.map((val, i) => `${i+1}g = ${val}`).join(",");
+                resultContent += `<div class="result-line">  g<sub>${idx+1}</sub>: ${str}</div>`;
+            });
+    
+            // After processing all functions and storing their results in `resultContent`
+            document.getElementById('present').innerHTML = resultContent + `
+                <div class="result-line">That is, the alphabet set is Y<sub>${n}</sub> = {x<sub>g<sub>1</sub></sub>, x<sub>g<sub>2</sub></sub>, ..., x<sub>g<sub>${rnk.toString()}</sub></sub>}</div>
+            `;
+        }
 
     }
-
-    
 }
-
-// Example
-/*
-let n = 4;
-let funcs = generateFunctions(n);
-console.log("Number:", funcs.length);
-funcs.forEach(f => console.log(f));*/
