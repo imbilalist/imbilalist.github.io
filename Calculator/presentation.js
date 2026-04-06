@@ -364,7 +364,7 @@ function presentation() {
             resultContent += `<div class="result-line"> That is, the alphabet set is given as <br> Y<sub>${n}</sub> = ${presentationData.Y_n}</div>`;
             resultContent += `<div class="result-line">The relation set R<sub>1</sub> is provided as;<br> R<sub>1</sub> = ${presentationData.R1}</div>`;
             resultContent += `<div class="result-line">The relation set R<sub>2</sub> is provided as;<br> R<sub>2</sub> = ${presentationData.R2}</div>`;
-            resultContent += `<div class="result-line">The required semigroup presentation is &lt;Y<sub>${n}</sub> | R<sub>1</sub> &cup; R<sub>2</sub>&gt; where Y<sub>${n}</sub>, R<sub>1</sub>, R<sub>2</sub> are given as above.</div>`;
+            resultContent += `<div class="result-line">The required semigroup presentation is &lt;Y<sub>${n}</sub> | R<sub>1</sub> &cup; R<sub>2</sub>&gt;<br> where Y<sub>${n}</sub>, R<sub>1</sub>, R<sub>2</sub> are given as above.</div>`;
             resultContent += `<div class="result-line">Note: For demonstration use. Calculations are not guaranteed to be accurate. Please do no use for real-world tasks.</div>`;
     
             // After processing all functions and storing their results in `resultContent`
