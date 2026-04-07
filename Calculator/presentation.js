@@ -74,7 +74,7 @@ function compute() {
 //presentation starts here
 
 function generateFunctions(n) {
-    if (n < 3) return [];
+    // if (n < 3) return [];
     let results = [];
     let f = new Array(n).fill(0);
     f[0] = 0;
@@ -163,7 +163,7 @@ function calculateGHat(g, n) {
     // Rule 2: g^(2) = 1
     result[1] = 1;
     
-    // Rule 3: For x in {3, 4, ..., n}, g^(x) = x - 1 - f(f(x - 1 - xg) - 1)
+    // Rule 3: For x in {3, 4, ..., n}, xg^ = x - 1 - f(f(x - 1 - xg) - 1)
     for (let x = 3; x <= n; x++) {
         const index = x - 1;
         const x_g = g[index]; // This is g(x)
@@ -250,7 +250,7 @@ function findOperationResult(gIndex, hIndex, funcs, n) {
     if (j !== null) {
         return j;
     } else {
-        // This case should theoretically not happen if your theory is correct,
+        // This case should theoretically not happen if the theory is correct,
         // as the operation should be "closed" (result is always in the set).
         return null; // Return null instead of error message for cleaner handling
     }
@@ -362,14 +362,12 @@ function presentation() {
         
         // Generate and add the semigroup presentation components
         const presentationData = generateSemigroupPresentation(funcs, n);
-        resultContent += `<div class="result-line">Y<sub>${n}</sub> = ${presentationData.Y_n}</div>`;
+        resultContent += `<div class="result-line">That is, the alphabet set is Y<sub>${n}</sub> = ${presentationData.Y_n}</div>`;
         resultContent += `<div class="result-line">R<sub>1</sub> = ${presentationData.R1}</div>`;
         resultContent += `<div class="result-line">R<sub>2</sub> = ${presentationData.R2}</div>`;
         resultContent += `<div class="result-line">The required semigroup presentation is &lt;Y<sub>${n}</sub> | R<sub>1</sub> &cup; R<sub>2</sub>&gt; where Y<sub>${n}</sub>, R<sub>1</sub>, R<sub>2</sub> are given as above.</div>`;
 
         // After processing all functions and storing their results in `resultContent`
-        document.getElementById('present').innerHTML = resultContent + `
-            <div class="result-line">That is, the alphabet set is Y<sub>${n}</sub> = {w, g<sub>2</sub>, ..., g<sub>${rnk.toString()}</sub>}</div>
-        `;
+        document.getElementById('present').innerHTML = resultContent
     }
 }
