@@ -116,28 +116,26 @@ function calculateOperation(g, h, n) {
     // Rule 2: (g+h)(2) = 1
     result[1] = 1;
 
-    // Rule 3: For x in {3, 4, ..., n}, (g+h)(x) = (x - xg)h + xg - 1
-    // Note: JavaScript uses 0-based indexing, so 'x-1' is the array index.
+    // Rule 3: For x in {3, 4, ..., n}, (g+h)(x) = h(x - g(x)) + g(x) - 1
     for (let x = 3; x <= n; x++) {
         const index = x - 1;
         const x_g = g[index]; // This is g(x)
-        const x_h = h[index]; // This is h(x)
-
-        // (x - g(x)) is not a value, but a number of elements. 
-        // Let's re-read the rule: "x(g+h) = (x - xg)h + xg - 1 for x in {3, 4, ..., n}"
-        // This is ambiguous. A common interpretation in this field is:
-        // (g+h)(x) = h(x - g(x)) + g(x) - 1
         
-        const arg_for_h = x - x_g; // The index to use for h, should be >= 1
+        // Calculate x - g(x)
+        const arg_for_h = x - x_g; // The index to use for h
+        
         if (arg_for_h < 1) {
-            // Based on the generation logic, h is only defined for inputs >= 1.
-            // A value less than 1 would be an invalid input for the function h.
-            // Let's handle this case by assuming the result should be invalid or a default.
-            // A reasonable default would be 0, as it's the value for argument 1.
+            // If argument is less than 1, result is 0
             result[index] = 0; 
         } else {
-            const h_val = h[arg_for_h - 1]; // Get h(x - g(x))
-            result[index] = h_val + x_g - 1;
+            // Get h(x - g(x)) using 0-based indexing
+            const h_index = arg_for_h - 1;
+            if (h_index < h.length) {
+                const h_val = h[h_index];
+                result[index] = h_val + x_g - 1;
+            } else {
+                result[index] = 0;
+            }
         }
     }
     
@@ -254,7 +252,7 @@ function findOperationResult(gIndex, hIndex, funcs, n) {
     } else {
         // This case should theoretically not happen if your theory is correct,
         // as the operation should be "closed" (result is always in the set).
-        return `The result of g_${gIndex} + g_${hIndex} is not in the generated set A_n.`;
+        return null; // Return null instead of error message for cleaner handling
     }
 }
 
@@ -280,7 +278,7 @@ function findGhatResult(gIndex, funcs, n) {
     if (j !== null) {
         return j;
     } else {
-        return `The result of g_${gIndex}^ is not in the generated set A_n.`;
+        return null; // Return null instead of error message for cleaner handling
     }
 }
 
@@ -299,32 +297,32 @@ function generateSemigroupPresentation(funcs, n) {
         if (i === 1) {
             alphabetSet.push('w'); // g_1 is denoted by 'w'
         } else {
-            alphabetSet.push(`x<sub>g<sub>${i}</sub></sub>`);
+            alphabetSet.push(`g${i}`);
         }
     }
     const Y_n = `{${alphabetSet.join(', ')}}`;
     
-    // Generate R_1 = {x_g x_w^2 ~ x_{g^} x_w : g ∈ A_n}
+    // Generate R_1 = {x_g w^2 ~ x_{g^} w : g ∈ A_n}
     let R1Relations = [];
     for (let i = 1; i <= rnk; i++) {
         const gHatIndex = findGhatResult(i, funcs, n);
-        if (typeof gHatIndex === 'number') {
-            const gSymbol = (i === 1) ? 'w' : `x<sub>g<sub>${i}</sub></sub>`;
-            const gHatSymbol = (gHatIndex === 1) ? 'w' : `x<sub>g<sub>${gHatIndex}</sub></sub>`;
+        if (gHatIndex !== null) {
+            const gSymbol = (i === 1) ? 'w' : `g${i}`;
+            const gHatSymbol = (gHatIndex === 1) ? 'w' : `g${gHatIndex}`;
             R1Relations.push(`${gSymbol}w<sup>2</sup> ~ ${gHatSymbol}w`);
         }
     }
     const R1 = `{${R1Relations.join(', ')}}`;
     
-    // Generate R_2 = {x_g x_h ~ x_{g+h} x_w : g, h ∈ A_n}
+    // Generate R_2 = {x_g x_h ~ x_{g+h} w : g, h ∈ A_n}
     let R2Relations = [];
     for (let i = 1; i <= rnk; i++) {
         for (let j = 1; j <= rnk; j++) {
             const sumIndex = findOperationResult(i, j, funcs, n);
-            if (typeof sumIndex === 'number') {
-                const gSymbol = (i === 1) ? 'w' : `x<sub>g<sub>${i}</sub></sub>`;
-                const hSymbol = (j === 1) ? 'w' : `x<sub>g<sub>${j}</sub></sub>`;
-                const sumSymbol = (sumIndex === 1) ? 'w' : `x<sub>g<sub>${sumIndex}</sub></sub>`;
+            if (sumIndex !== null) {
+                const gSymbol = (i === 1) ? 'w' : `g${i}`;
+                const hSymbol = (j === 1) ? 'w' : `g${j}`;
+                const sumSymbol = (sumIndex === 1) ? 'w' : `g${sumIndex}`;
                 R2Relations.push(`${gSymbol}${hSymbol} ~ ${sumSymbol}w`);
             }
         }
@@ -343,32 +341,35 @@ function presentation() {
         document.getElementById('present').innerHTML =
             `<div class="result-line error">Calculations for n>10 are too big to be considered here. Please try a smaller value.</div>`;
         return;
-    } else {
-        let rnk = rank(n);
-        let funcs = generateFunctions(n);
-        if (funcs.length === 0) {
-            document.getElementById('present').innerHTML =
-                `<div class="result-line">No functions generated for n = ${n}. Try a different value.</div>`;
-        } else {
-            let resultContent = `<div class="result-line">A<sub>${n}</sub> = {g<sub>1</sub>, g<sub>2</sub>, ..., g<sub>${rnk.toString()}</sub>} ; where g<sub>i</sub>'s are defined as:</div>`;
-            funcs.forEach((g, idx) => {
-                let str = g.map((val, i) => `${i+1}g = ${val}`).join(",");
-                resultContent += `<div class="result-line">  g<sub>${idx+1}</sub>: ${str}</div>`;
-            });
-    
-            // Add note about g_1 being denoted by 'w'
-            resultContent += `<div class="result-line"><strong>Note:</strong> g<sub>1</sub> will be denoted by 'w' in the presentation.</div>`;
-            
-            // Generate and add the semigroup presentation components
-            const presentationData = generateSemigroupPresentation(funcs, n);
-            resultContent += `<div class="result-line"> That is, the alphabet set is given as <br> Y<sub>${n}</sub> = ${presentationData.Y_n}</div>`;
-            resultContent += `<div class="result-line">The relation set R<sub>1</sub> is provided as;<br> R<sub>1</sub> = ${presentationData.R1}</div>`;
-            resultContent += `<div class="result-line">The relation set R<sub>2</sub> is provided as;<br> R<sub>2</sub> = ${presentationData.R2}</div>`;
-            resultContent += `<div class="result-line">The required semigroup presentation is &lt;Y<sub>${n}</sub> | R<sub>1</sub> &cup; R<sub>2</sub>&gt;<br> where Y<sub>${n}</sub>, R<sub>1</sub>, R<sub>2</sub> are given as above.</div>`;
-    
-            // After processing all functions and storing their results in `resultContent`
-            document.getElementById('present').innerHTML = resultContent;
-        }
+    }
 
+    // Removed the special case for n=4
+    
+    let rnk = rank(n);
+    let funcs = generateFunctions(n);
+    if (funcs.length === 0) {
+        document.getElementById('present').innerHTML =
+            `<div class="result-line">No functions generated for n = ${n}. Try a different value.</div>`;
+    } else {
+        let resultContent = `<div class="result-line">A<sub>${n}</sub> = {g<sub>1</sub>, g<sub>2</sub>, ..., g<sub>${rnk.toString()}</sub>} ; where g<sub>i</sub>'s are defined as:</div>`;
+        funcs.forEach((g, idx) => {
+            let str = g.map((val, i) => `${i+1}g = ${val}`).join(",");
+            resultContent += `<div class="result-line">  g<sub>${idx+1}</sub>: ${str}</div>`;
+        });
+
+        // Add note about g_1 being denoted by 'w'
+        resultContent += `<div class="result-line"><strong>Note:</strong> g<sub>1</sub> is denoted by 'w' in the presentation.</div>`;
+        
+        // Generate and add the semigroup presentation components
+        const presentationData = generateSemigroupPresentation(funcs, n);
+        resultContent += `<div class="result-line">Y<sub>${n}</sub> = ${presentationData.Y_n}</div>`;
+        resultContent += `<div class="result-line">R<sub>1</sub> = ${presentationData.R1}</div>`;
+        resultContent += `<div class="result-line">R<sub>2</sub> = ${presentationData.R2}</div>`;
+        resultContent += `<div class="result-line">The required semigroup presentation is &lt;Y<sub>${n}</sub> | R<sub>1</sub> &cup; R<sub>2</sub>&gt; where Y<sub>${n}</sub>, R<sub>1</sub>, R<sub>2</sub> are given as above.</div>`;
+
+        // After processing all functions and storing their results in `resultContent`
+        document.getElementById('present').innerHTML = resultContent + `
+            <div class="result-line">That is, the alphabet set is Y<sub>${n}</sub> = {w, g<sub>2</sub>, ..., g<sub>${rnk.toString()}</sub>}</div>
+        `;
     }
 }
