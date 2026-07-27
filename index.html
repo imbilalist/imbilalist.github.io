@@ -1,344 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bilal Ahmad Kalas | Mathematics</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<title>Bilal Ahmad Kalas | Mathematics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #232323;
-            background: #f8fafc;
-            background-image: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 30%),
-                              radial-gradient(circle at 90% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
-            min-height: 100vh;
-            display: flex;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-        /* Fixed sidebar */
-        .sidebar {
-            width: 300px;
-            background: #1e293b;       
-            color: #f1f5f9;
-            padding: 2rem 1.5rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            overflow-y: auto;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-        }
+<style>
+    /* =====================  Variables  ===================== */
+    :root{
+    --bg:#faf9f5;               /* page background */
+    --primary:#1e3a8a;           /* section titles */
+    --sub:#1e7e91;               /* subsection titles */
+    --content:#8B0000;           /* item titles – maroon */
+    --header:#111111;            /* header/footer bg */
+    --text:#232323;              /* body text */
+    --border:#e5eaf1;
+    --card-bg:#ffffff;
+    --card-shadow:rgba(0,0,0,.05);
+    --radius:8px;
+    --spacing:1rem;
+    --transition:.2s ease;
+    }
 
-        .sidebar h1 {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            line-height: 1.2;
-            color: white;
-        }
+    /* =====================  Global  ===================== */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+    font-family:'Open Sans',sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    }
+    a{color:var(--content);text-decoration:none;transition:color var(--transition);}
+    a:hover{color:var(--primary);}
 
-        .sidebar .subhead {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 1rem;
-        }
+    /* Headings */
+    h1{font-family:'Merriweather',serif;font-size:2.5rem;color:var(--primary);margin-bottom:.6rem;}
+    h3{font-family:'Merriweather',serif;font-size:1.5rem;color:var(--primary);
+        border-bottom:2px solid var(--primary);padding-bottom:.4rem;margin-bottom:1rem;}
+    h4{font-family:'Merriweather',serif;font-size:1.4rem;color:var(--sub);
+        border-bottom:2px solid var(--sub);padding-bottom:.4rem;margin-bottom:.8rem;}
+    h5{font-size:1.12rem;
+        color:var(--content);
+        font-weight:600;
+        margin-bottom:.6rem;}
 
-        .sidebar .contact {
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-        }
+    /* Header & Nav */
+    header{
+    background:var(--header);
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem;
+    position:sticky;
+    top:0;
+    z-index:10;
+    }
+    header .logo{
+    font-size:1.6rem;
+    font-weight:600;
+    }
+    header nav{
+    display:flex;
+    gap:1.2rem;
+    }
+    header nav a{
+    color:#fff;
+    font-weight:500;
+    }
+    header nav a:hover{color:var(--content);}
 
-        .sidebar .contact p {
-            margin-bottom: 0.5rem;
-        }
+    /* Main content */
+    main{
+    max-width:700px;
+    margin:0 auto;
+    padding:var(--spacing);
+    }
+    .card{
+    background:var(--card-bg);
+    border-radius:var(--radius);
+    box-shadow:0 4px 6px -1px var(--card-shadow);
+    padding:1.5rem;
+    border:1px solid var(--border);
+    margin-bottom:1.5rem;
+    }
+    .card p{margin-bottom:.8rem;}
+    .card article{margin-bottom:1rem;}
 
-        .sidebar .contact a {
-            color: #94a3b8;
-            text-decoration: none;
-            border-bottom: 1px dotted rgba(255,255,255,0.3);
-            transition: color 0.2s;
-        }
+    /* Footer */
+    footer{
+    background:var(--header);
+    color:#fff;
+    text-align:center;
+    padding:.8rem;
+    font-size:.9rem;
+    }
+    footer a{color:#fff;margin-left:.5rem;}
+    footer a:hover{color:var(--content);}
 
-        .sidebar .contact a:hover {
-            color: white;
-            border-bottom-color: white;
-        }
-
-        .sidebar .interests-sidebar {
-            margin-top: 2rem;
-        }
-
-        .sidebar .interests-sidebar span {
-            display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 0.25rem 1rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            margin: 0.25rem 0.25rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #e2e8f0;
-        }
-
-        /* Main content – scrollable */
-        .main-content {
-            margin-left: 300px;
-            padding: 2rem 2rem;
-            width: calc(100% - 300px);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* Intro card */
-        .intro {
-            background: white;
-            border-radius: 24px;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-            border: 1px solid #e9eef3;
-        }
-
-        .about-heading {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin-bottom: 1rem;
-            border-bottom: 3px solid #2563eb;
-            display: inline-block;
-        }
-
-        .intro p {
-            font-size: 1.05rem;
-            color: #334155;
-            margin-bottom: 1rem;
-        }
-
-        .intro p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Section headings */
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 400;
-            background: #f5f5dc;
-            color: #0f172a;
-            border-radius: 30px;
-            margin: 1.5rem 0 1rem 0;
-            border-left: 4px solid #2563eb;
-            padding-left: 1rem;
-            
-        }
-
-        /* Thesis section styling */
-
-        .entry {
-            color: #555d50;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            transition: border-color 0.2s;
-        }
-        
-        .links a {
-            color: #cc0000;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .links a:hover {
-            border-bottom-color: #2563eb;
-        }
-
-        /* Footer  */
-        .footer {
-            margin-top: 3rem;
-            padding: 1.5rem 2rem;
-            background: #0f172a;       
-            color: #94a3b8;
-            border-radius: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer .copyright {
-            color: #cbd5e1;
-        }
-
-        .footer .links a {
-            color: #94a3b8;
-            text-decoration: none;
-            margin-left: 1.5rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .footer .links a:hover {
-            color: white;
-        }
-
-        /* Responsive */
-        @media (max-width: 700px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                box-shadow: none;
-            }
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 1.5rem;
-            }
-            .footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .footer .links a {
-                margin-left: 0;
-                margin-right: 1.5rem;
-            }
-        }
-    </style>
+    /* Smooth scrolling */
+    html{scroll-behavior:smooth;}
+</style>
 </head>
+
 <body>
-    <!-- Fixed sidebar -->
-    <aside class="sidebar">
-        <h1>Bilal Ahmad Kalas</h1>
-        <div class="subhead">Mathematics graduate (M.Sc)</div>
-        
-        <div class="contact">
-            <p>🔗 <a href="https://github.com/imbilalist">Github</a> · <a href="https://aledentia.blogspot.com">Blog</a></p>
-        </div>
-      <!--
-        <div class="interests-sidebar">
-            <span>Algebra</span>
-            <span>Commutative Algebra</span>
-            <span>Topology</span>
-            <span>Number Theory</span>
-            <span>Algebraic Topology</span>
-            <span>Algebraic Number Theory</span>
-            <span>Algebraic Geometry</span>
-            <span>Representation Theory</span>
-            <span>Semigroup Theory</span>
-            <span>Galois Theory</span>
-        </div>
-       -->
-    </aside>
 
-    <!-- Main scrollable content -->
-    <main class="main-content">
-        <div class="container">
-            <!-- About me section -->
-            <div class="intro">
-                <h2 class="about-heading">About me</h2>
-                <p>I am a master's graduate in Mathematics from the Central University of Kashmir, India. My research interests lie broadly in pure mathematics, particularly abstract algebra and semigroup theory. My master's dissertation focused on finite transformation semigroups, which sparked a lasting interest in the structural study of algebraic objects. I am also interested in understanding the interactions between algebra, topology, geometry, number theory, and theoretical computer science, and I am currently exploring these areas in preparation for doctoral research. You can check out draft of my CV <a href="docspdfs/cv.pdf" target="_blank">here</a>.</p>
-                <p>Below you can find my master's thesis; independent reviews of recent literature are currently in preparation. All documents are freely accessible.</p>
-            </div>
+    <header>
+    <div class="logo">Bilal Ahmad Kalas</div>
+    <nav>
+        <a href="#about">About Me</a>
+        <a href="#research">Research</a>
+        <a href="#thesis">Master’s Thesis</a>
+        <a href="#notes">Study Notes</a>
+        <a href="#archive">Archive</a>
+    </nav>
+    </header>
 
-            <!-- Content Section -->
+    <main>
+    <!-- ABOUT -->
+    <section id="about" class="card">
+        <h3>About Me</h3>
+        <p>I am a Master’s graduate in Mathematics from the Central University of Kashmir. My research interests cover abstract algebra, semigroup theory, and their interactions with topology, geometry, and theoretical computer science. My master’s dissertation, titled “Ranks and Presentations for Finite Transformation Semigroups”, sparked a lasting interest in the structural study of algebraic objects. You can view my curriculum vitae <a href="docspdfs/cv.pdf" target="_blank">here</a>.</p>
+    </section>
 
-            <!-- Research-->
-            <h2 class="section-title">Research</h2>
-            <h3 class="section-subtitle">Publications</h3>
-            <i>Empty for now</i>
+    <!-- RESEARCH -->
+    <section id="research" class="card">
+        <h3>Research</h3>
 
-            <!-- On-going projects or papers -->
-            <h2 class="section-title">Ongoing Work</h2>
-            No active projects at the moment. Please check back later for updates.
+        <h4>Publications</h4>
+        <p><em>No publications yet.</em></p>
 
-            <!-- Thesis -->
-            <h2 class="section-title">Master's Thesis</h2>
-            
-            <div class="entry">
-                <div class="links">
-                    <a href="docspdfs/thesis.pdf" target="_blank">Ranks and Presentations for Finite Transformation Semigroups</a>, October 2024.
-                </div>
-            </div>
-            
-            <div class="entry">
-                <div class="links">
-                    <a href="Calculator/index.html" target="_blank">Rank calculator for Order-Preserving Transformation Semigroups with one fixed point</a>
-                </div>
-            </div>
+        <h4>Ongoing Projects</h4>
+        <p>No active projects at the moment. Check back later for updates.</p>
+    </section>
 
-            <div class="entry">
-                <div class="links">
-                    <a href="Calculator/presentation.html" target="_blank">Presentation calculator for order-preserving transformation semigroups with fixed point '1'</a>
-                </div>
-            </div> 
+    <!-- MASTER’S THESIS -->
+    <section id="thesis" class="card">
+        <h3>Master's Thesis</h3>
 
-            <!-- Study Notes -->
-            <h2 class="section-title">Study Notes</h2>
+        <article>
+        <h5 class="content-title">
+            <a href="docspdfs/thesis.pdf" target="_blank">Ranks and Presentations for Finite Transformation Semigroups</a>
+        </h5>
+        <p>October 2024</p>
+        </article>
 
-            <div
+        <article>
+        <h5 class="content-title">
+            <a href="Calculator/index.html" target="_blank">Rank calculator for Order-Preserving Transformation Semigroups with one fixed point</a>
+        </h5>
+        </article>
 
-            <div class="entry">
-                <div class="links">
-                    <a href="docspdfs/Notes on Semigroups and Related Structures.pdf" target="_blank">Notes on Semigroups and Related Structures</a>
-                </div>
-            </div>
-            
-            <div class="entry">
-                <div class="links">
-                    <a href="docspdfs/ANT.pdf" target="_blank">Exploring Algebraic Number Theory</a>
-                </div>
-            </div>
+        <article>
+        <h5 class="content-title">
+            <a href="Calculator/presentation.html" target="_blank">Presentation calculator for order‑preserving transformation semigroups with fixed point ‘1’</a>
+        </h5>
+        </article>
+    </section>
 
-            <!-- Completed Projects -->
-            <h2 class="section-title">Archive</h2>
-            <div class="entry">
-                <div class="links">
-                    <a href="docspdfs/rar.pdf" target="_blank">Review of Research Article "Ranks and Presentaions for Order-Preserving Transformations with one Fixed Point" by Joerg Koppitz and Somuek Worawiset, Turkish Journal of Mathematics, Volume 46, Number 8, Article 23.</a>
-                </div>
-            </div>
+    <!-- STUDY NOTES -->
+    <section id="notes" class="card">
+        <h3>Study Notes</h3>
 
-            <div class="entry">
-                <div class="links">
-                    <a href="Calculator/Rank of Transformation Semigroups.py" target="_blank">Python Program for calculating Rank of Order-Preserving Transformation Semigroups with one fixed point</a>
-                </div>
-            </div>
+        <article>
+        <h5 class="content-title">
+            <a href="docspdfs/Notes on Semigroups and Related Structures.pdf" target="_blank">Notes on Semigroups and Related Structures</a>
+        </h5>
+        </article>
 
-            <div class="entry">
-                <div class="links">
-                    <a href="docspdfs/TopologyBasics.pdf" target="_blank">Topology Basics: Definitions and key results(hand written notes)</a>
-                </div>
-            </div>
+        <article>
+        <h5 class="content-title">
+            <a href="docspdfs/algebraictopology.pdf" target="_blank">Exploring Algebraic Topology</a>
+        </h5>
+        </article>
 
-            <!-- Footer -->
-            <div class="footer">
-                <div class="copyright">© 2026 Bilal Ahmad Kalas</div>
-                <div class="links">
-                    <a href="https://github.com/imbilalist">GitHub</a>
-                    <a href="https://aledentia.blogspot.com">Blog</a>
-                    <a href="https://limsupx.substack.com">Substack</a>
-                    <a href="https://www.x.com/LimSupx">X</a>
-                </div>
-            </div>
-        </div> <!-- end container -->
+        <article>
+        <h5 class="content-title">
+            <a href="docspdfs/ANT.pdf" target="_blank">Exploring Algebraic Number Theory</a>
+        </h5>
+        </article>
+    </section>
+
+    <!-- ARCHIVE -->
+    <section id="archive" class="card">
+        <h3>Archive</h3>
+
+        <article>
+        <h5 class="content-title">
+            <a href="docspdfs/rar.pdf" target="_blank">Review of Research Article “Ranks and Presentations for Order‑Preserving Transformations with one Fixed Point” by J. Koppitz & S. Worawiset</a>
+        </h5>
+        </article>
+
+        <article>
+        <h5 class="content-title">
+            <a href="Calculator/Rank of Transformation Semigroups.py" target="_blank">Python program for calculating Rank of Order‑Preserving Transformation Semigroups with one fixed point</a>
+        </h5>
+        </article>
+
+        <article>
+        <h5 class="content-title">
+            <a href="docspdfs/TopologyBasics.pdf" target="_blank">Topology Basics: definitions and key results (hand‑written notes)</a>
+        </h5>
+        </article>
+    </section>
     </main>
+
+    <footer>
+    © 2026 Bilal Ahmad Kalas
+    <a href="https://github.com/imbilalist" target="_blank">GitHub</a>
+    <a href="https://aledentia.blogspot.com" target="_blank">Blog</a>
+    <a href="https://limsupx.substack.com" target="_blank">Substack</a>
+    <a href="https://www.x.com/LimSupx" target="_blank">X</a>
+    </footer>
+
 </body>
 </html>
